@@ -1,0 +1,13 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "css",
+    "markdown",
+    "dart"
+  ],
+  "flutter.sdk.searchPaths": ["C:\\src\\flutter"]
+}
