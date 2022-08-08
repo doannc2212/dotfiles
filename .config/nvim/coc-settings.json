@@ -7,7 +7,15 @@
     "json",
     "css",
     "markdown",
-    "dart"
+    "dart",
+    "py",
+    "yaml"
   ],
-  "flutter.sdk.searchPaths": ["C:\\src\\flutter"]
+  "flutter.sdk.searchPaths": ["C:\\src\\flutter"],
+  "python.linting.flake8Enabled": true,
+  "python.formatting.provider": "black",
+  "diagnostic.errorSign": "●",
+  "diagnostic.warningSign": ".",
+  "cSpellExt.enableDictionaries": ["vi"],
+  "cSpell.language": "en,vi"
 }
