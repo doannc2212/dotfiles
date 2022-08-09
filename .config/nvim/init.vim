@@ -9,6 +9,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 call plug#begin()
   Plug 'preservim/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'AndrewRadev/tagalong.vim'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -43,7 +44,6 @@ set showcmd
 set incsearch        " incremental searching
 set laststatus=2     " always display the status line
 set autowrite        " automatically :w before running commands
-set cursorline
 set mouse=a          " enable mouse support
 set encoding=utf8
 set mousemodel=popup " enable mouse model
@@ -77,6 +77,21 @@ set number
 set relativenumber
 set numberwidth=5
 
+" Only show the cursor line in the active buffer.
+augroup CursorLine
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
+
+" Auto-resize splits when Vim gets resized.
+autocmd VimResized * wincmd =
+
+" Update a buffer's contents on focus if it changed outside of Vim.
+au FocusGained,BufEnter * :checktime
+
+" Unset paste on InsertLeave.
+autocmd InsertLeave * silent! set nopaste
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
@@ -118,11 +133,22 @@ endif
 " Remove highlights
 map <C-c> :nohl<CR>
 
-nmap <leader>r :%s///g<Left><Left>
-nmap <leader>rc :%s///gc<Left><Left><Left>
+" Press * to search for the term under the cursor or a visual selection and
+" then press a key below to replace all instances of it in the current file.
+nnoremap <Leader>r :%s///g<Left><Left>
+nnoremap <Leader>rc :%s///gc<Left><Left><Left>
 
-xmap <leader>r :%s///g<Left><Left>
-xmap <leader>rc :%s///gc<Left><Left><Left>
+" The same as above but instead of acting on the whole file it will be
+" restricted to the previously visually selected range. You can do that by
+" pressing *, visually selecting the range you want it to apply to and then
+" press a key below to replace all instances of it in the current selection.
+xnoremap <Leader>r :s///g<Left><Left>
+xnoremap <Leader>rc :s///gc<Left><Left><Left>
+
+" Type a replacement term and press . to repeat the replacement again. Useful
+" for replacing a few instances of the term (comparable to multiple cursors).
+nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 
 " VSCode like keymappig
 " imap <C-s> <Esc>:write<CR>
@@ -135,12 +161,12 @@ nmap <C-v> :VisualBlock<CR>
 nmap nt :NERDTreeToggle<CR>
 nmap nf :NERDTreeFind<CR>
 let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['node_modules','\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeIgnore=['node_modules', 'dist', 'dev-dist' ,'\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite,*node_modules/
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite,*node_modules/,*dev-dist/,*dist/
 let NERDTreeShowHidden=1
 let NERDTreeWinSize=60
 
@@ -151,14 +177,14 @@ autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 vmap <Tab> >gv
 vmap <S-Tab> <gv
 
+" Edit Vim config file in a new tab.
+map <Leader>p :tabnew $MYVIMRC<CR>
+
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
-
-" terminal emulation
-nnoremap <silent> <leader>sh :terminal<CR>
 
 " coc.vim config
 "
@@ -170,6 +196,11 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -185,7 +216,6 @@ endif
 
 inoremap <silent><expr> <M-,> coc#refresh()
 
-imap jj <Esc>
 
 " Remap keys for gotos
 " GoTo code navigation.
@@ -201,7 +231,6 @@ nmap <silent> gv :vsp<CR><Plug>(coc-definition)<C-W>L
 nmap <silent> g` :CocDiagnostics <CR>
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 nmap <silent> rn <Plug>(coc-rename)
 
 " Always show the signcolumn, otherwise it would shift the text each time
@@ -229,6 +258,11 @@ command! -nargs=0 AddCSpellWord :CocCommand cSpell.addWordToWorkspaceDictionary
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 command! -nargs=0 Format :call CocActionAsync('format')
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 nmap <C-f> :Format <CR>
 
@@ -283,8 +317,8 @@ noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 
 "" Tabs
-" nnoremap <Tab> gt
-" nnoremap <S-Tab> gT
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
 nnoremap <silent> <S-t> :tabnew<CR>
 
 "" fzf.vim
@@ -294,8 +328,9 @@ let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :Files<CR>
 "Recovery commands from history through FZF
+
 nmap <leader>y :History:<CR>
-" Customize fzf colors to match your color scheme
+" Customize fzf colors to match your color scheme.
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -304,7 +339,6 @@ let g:fzf_colors =
   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
   \ 'hl+':     ['fg', 'Statement'],
   \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
   \ 'prompt':  ['fg', 'Conditional'],
   \ 'pointer': ['fg', 'Exception'],
   \ 'marker':  ['fg', 'Keyword'],
@@ -356,11 +390,15 @@ let g:gitgutter_git_executable = 'C:\Program Files\Git\bin\git.exe'
 "" no one is really happy until you have this shortcuts
 cnoreabbrev W! w!
 cnoreabbrev Q! q!
-cnoreabbrev Qall! qall!
+cnoreabbrev W w
+cnoreabbrev Q q
 cnoreabbrev Wq wq
 cnoreabbrev Wa wa
 cnoreabbrev wQ wq
 cnoreabbrev WQ wq
-cnoreabbrev W w
-cnoreabbrev Q q
+cnoreabbrev Qall! qall!
 cnoreabbrev Qall qall
+cnoreabbrev Qa! qa!
+cnoreabbrev Qa qa
+cnoreabbrev WQa wqa
+cnoreabbrev Wqa wqa
