@@ -10,8 +10,10 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export BREW_HOME="/home/linuxbrew/.linuxbrew/bin"
+export SENSE="/home/doannc2212/Documents/sense/web"
+export CAPSTONE="/home/doannc2212/Documents/capstone/"
 export ANDROID_PLATFORM_TOOLS="/home/doannc2212/Android/Sdk/platform-tools"
-export PATH="$PATH:$BREW_HOME:$ANDROID_PLATFORM_TOOLS"
+export PATH="$PATH:$BREW_HOME:$ANDROID_PLATFORM_TOOLS:$SENSE:$CAPSTONE"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
