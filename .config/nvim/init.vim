@@ -9,7 +9,8 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 call plug#begin()
   Plug 'preservim/nerdtree'
   Plug 'Xuyuanp/nerdtree-git-plugin'
-  Plug 'AndrewRadev/tagalong.vim'
+  Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'jiangmiao/auto-pairs'
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -21,8 +22,6 @@ call plug#begin()
   Plug 'tpope/vim-commentary'
   Plug 'dart-lang/dart-vim-plugin'
   Plug 'thosakwe/vim-flutter'
-  Plug 'natebosch/vim-lsc'
-  Plug 'natebosch/vim-lsc-dart'
   Plug 'airblade/vim-gitgutter'
   Plug 'alvan/vim-closetag'
   Plug 'itchyny/lightline.vim'
@@ -113,8 +112,7 @@ set lazyredraw
 set termguicolors
 set background=dark
 
-colorscheme tokyonight
-
+let g:tokyonight_style = "night"
 let g:tokyonight_italic_functions = 1
 let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
 "
@@ -123,6 +121,8 @@ let g:tokyonight_colors = {
   \ 'hint': 'orange',
   \ 'error': '#ff0000'
 \ }
+
+colorscheme tokyonight
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -170,9 +170,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite,*node_modules/,*dev
 let NERDTreeShowHidden=1
 let NERDTreeWinSize=60
 
-" Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
-
 " Use tab with text block
 vmap <Tab> >gv
 vmap <S-Tab> <gv
@@ -213,8 +210,6 @@ if has('nvim')
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
-
-inoremap <silent><expr> <M-,> coc#refresh()
 
 
 " Remap keys for gotos
@@ -264,7 +259,7 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-nmap <C-f> :Format <CR>
+nmap <leader>f :Format <CR>
 
 nmap <leader>s :AddCSpellWord <CR>
 
@@ -360,7 +355,7 @@ endif
 
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'ayu_mirage',
+      \ 'colorscheme': 'tokyonight',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ] ],
@@ -380,9 +375,6 @@ let g:closetag_filenames = '*.html,*.js,*.jsx,*.tsx'
 let g:closetag_emptyTags_caseSensitive = 1
 let g:jsx_ext_required = 0
 let g:closetag_enable_react_fragment = 1
-
-" GitGutter fix error for windows
-let g:gitgutter_git_executable = 'C:\Program Files\Git\bin\git.exe'
 
 "*****************************************************************************
 "" Abbreviations
