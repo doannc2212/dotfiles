@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Hack Nerf Font 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -196,11 +196,11 @@ for_window [class="Spotify"] move to workspace number 4
 for_window [class="^.*"] border pixel 1
 
 # start initial programs
-exec --no-startup-id discord &
-exec --no-startup-id spotify &
-exec --no-startup-id brave &
-exec --no-startup-id ibus-daemon -drxR &
+exec --no-startup-id discord 
+exec --no-startup-id brave
+exec --no-startup-id ibus-daemon -drxR
 
 exec --no-startup-id nitrogen --restore
-exec_always $HOME/.config/polybar/launch.sh --grayblocks &
+exec_always $HOME/.config/polybar/launch.sh --grayblocks 
+exec_always picom --config $HOME/.config/picom/picom.conf -b --experimental-backends  
 
