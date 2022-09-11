@@ -48,7 +48,6 @@ set encoding=utf8
 set mousemodel=popup " enable mouse model
 set fileencoding=utf-8
 set fileencodings=utf-8
-set ff=dos 
 highlight LineNr ctermfg=grey
 filetype plugin on
 
@@ -161,7 +160,7 @@ nmap <C-v> :VisualBlock<CR>
 nmap nt :NERDTreeToggle<CR>
 nmap nf :NERDTreeFind<CR>
 let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['node_modules', 'dist', 'dev-dist' ,'\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeIgnore=['node_modules', 'dist', 'dev-dist' ,'\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.git', '.\github', '\.idea', '\.dart_tool', '\.vscode']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
@@ -230,12 +229,12 @@ nmap <silent> rn <Plug>(coc-rename)
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+" if has("nvim-0.5.0") || has("patch-8.1.1564")
+"   " Recently vim can merge signcolumn and number column into one
+"   set signcolumn=number
+" else
+"   set signcolumn=yes
+" endif
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
