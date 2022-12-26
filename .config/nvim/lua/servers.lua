@@ -55,6 +55,7 @@ telescope.setup {
 	extensions = { file_browser = { hidden = true } },
 }
 telescope.load_extension "file_browser"
+telescope.load_extension "flutter"
 
 require("nvim-treesitter.configs").setup {
 	ensure_installed = {
@@ -125,7 +126,6 @@ local opts = {
 		vim.keymap.set('n', '<space>G', vim.diagnostic.setqflist, opts)
 		vim.keymap.set('n', '<space>a', vim.lsp.buf.code_action, opts)
 
-
 		vim.keymap.set("n", "<Leader>h", vim.lsp.buf.hover, opts)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
@@ -154,4 +154,4 @@ for _, server in pairs(servers) do
 
 	lspconfig[server].setup(opts)
 end
-lspconfig['dartls'].setup(opts)
+require("flutter-tools").setup { lsp = opts }
