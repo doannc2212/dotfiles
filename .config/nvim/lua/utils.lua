@@ -42,4 +42,5 @@ vim.api.nvim_command "sign define DiagnosticSignWarn text=● texthl=DiagnosticS
 vim.api.nvim_command "sign define DiagnosticSignInfo text=● texthl=DiagnosticSignInfo"
 vim.api.nvim_command "sign define DiagnosticSignHint text=● texthl=DiagnosticSignHint"
 
+-- format on save
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
