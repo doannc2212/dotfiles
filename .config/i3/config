@@ -16,7 +16,7 @@ font pango:Hack Nerd Font 10
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
-exec --no-startup-id xrandr --output HDMI-1 --auto --output eDP-1 --off
+# exec --no-startup-id xrandr --output HDMI-1 --auto --output eDP-1 --off
 exec --no-startup-id picom
 exec --no-startup-id dunst
 # exec --no-startup-id ibus-daemon -drx
@@ -40,7 +40,8 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec "dmenu_run -nf '#CDD6F4' -nb '#1E1E2E' -sb '#585B70' -sf '#89B4FA' -fn 'monospace-10' -p 'dmenu'"
+
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -174,8 +175,30 @@ for_window [class="^.*"] border pixel 0
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+# class                 border  bground text    indicator child_border
+client.focused          #89B4FA #89B4FA #1E1E2E #89B4FA   #89B4FA
+client.focused_inactive #313244 #313244 #BAC2DE #313244   #313244
+client.unfocused        #1E1E2E #1E1E2E #A6ADC8 #1E1E2E   #1E1E2E
+client.urgent           #F38BA8 #F38BA8 #1E1E2E #F38BA8   #F38BA8
+client.placeholder      #181825 #181825 #BAC2DE #181825   #181825
+
+client.background       #1e1e2e
 bar {
+        # i3bar_command i3bar --transparency
         status_command i3status
+				position top
+			  colors {
+    			background #1E1E2E
+    			statusline #CDD6F4
+    			separator  #313244
+
+    			focused_workspace  #89B4FA #89B4FA #313244
+    			active_workspace   #45475A #45475A #BAC2DE
+    			inactive_workspace #313244 #313244 #A6ADC8
+    			urgent_workspace   #F38BA8 #F38BA8 #313244
+    			binding_mode       #F38BA8 #313244 #F38BA8
+  			}
+				font pango:Hack Nerd Font 10
 }
 
 
