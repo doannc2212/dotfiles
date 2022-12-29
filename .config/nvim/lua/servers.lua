@@ -73,6 +73,7 @@ require("nvim-treesitter.configs").setup {
 		"tsx",
 		"typescript",
 		"yaml",
+		"kotlin",
 	},
 	highlight = { enable = true },
 }

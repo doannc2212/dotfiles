@@ -1,0 +1,13 @@
+general {
+  output_format = "i3bar"
+  colors = true
+  color_good = "#A6E3A1"
+  color_degraded = "#F9E2AF"
+  color_bad = "#F38BA8"
+}
+
+order += "disk /"
+
+disk "/" {
+  format = "/: %percentage_used"
+}

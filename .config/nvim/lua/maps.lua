@@ -6,8 +6,8 @@ vim.keymap.set("n", "<Leader>j", ":bprevious<CR>", { silent = true })
 vim.keymap.set("n", "<Leader>k", ":bnext<CR>", { silent = true })
 vim.keymap.set("n", "<Leader>q", ":bprevious<CR>:bdelete #<CR>", { silent = true })
 
-vim.keymap.set({ "n", "x" }, "<Leader>b", ":%s///g<Left><Left>")
-vim.keymap.set({ "n", "x" }, "<Leader>bc", ":%s///gc<Left><Left><Left>")
+vim.keymap.set({ "n", "x" }, "<Leader>r", ":%s///g<Left><Left>")
+vim.keymap.set({ "n", "x" }, "<Leader>rc", ":%s///gc<Left><Left><Left>")
 
 vim.keymap.set("n", "<Leader>y", ":%y<CR>")
 
@@ -31,5 +31,3 @@ vim.keymap.set("n", "<Leader>m", require("telescope").extensions.flutter.command
 vim.keymap.set({ "n", "v" }, "<Leader>c", ":Commentary<CR>", { silent = true })
 
 vim.keymap.set("n", "<Leader>5", ":FlutterRun --flavor development --target=lib/main_development.dart<CR>", { silent = true })
-vim.keymap.set("n", "<Leader>R", ":FlutterRestart<CR>", { silent = true })
-vim.keymap.set("n", "<Leader>r", ":FlutterReload<CR>", { silent = true })
