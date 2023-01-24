@@ -15,12 +15,12 @@ font pango:Hack Nerd Font 10
 
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 # exec --no-startup-id xrandr --output HDMI-1 --auto --output eDP-1 --off
-exec --no-startup-id picom
-exec --no-startup-id dunst
+# exec --no-startup-id picom
+# exec --no-startup-id dunst
 # exec --no-startup-id ibus-daemon -drx
-exec --no-startup-id nitrogen --restore
+# exec --no-startup-id nitrogen --restore
 exec --no-startup-id discord
 
 # Use pactl to adjust volume in PulseAudio.
