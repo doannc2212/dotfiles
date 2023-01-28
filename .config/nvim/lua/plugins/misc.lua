@@ -60,11 +60,11 @@ return {
     },
   },
 
-  -- {
-  --   "andweeb/presence.nvim",
-  --   config = true,
-  --   event = "VeryLazy",
-  -- },
+  {
+    "andweeb/presence.nvim",
+    config = true,
+    event = "VeryLazy",
+  },
 
   {
     "nvim-lualine/lualine.nvim",
@@ -138,7 +138,6 @@ return {
               function()
                 return " " .. os.date("%R")
               end,
-              "location",
               separator = { right = "" },
               left_padding = 2,
             },
@@ -147,7 +146,7 @@ return {
         inactive_sections = {
           lualine_a = { "filename" },
         },
-        extension = { "nvim-tree" },
+        extension = { "neo-tree" },
       }
     end,
   },

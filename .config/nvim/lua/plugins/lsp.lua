@@ -30,7 +30,7 @@ return {
     config = function()
       require("flutter-tools").setup({})
     end,
-    event = "VeryLazy",
+    lazy = false,
   },
 
   { import = "lazyvim.plugins.extras.lang.typescript" },

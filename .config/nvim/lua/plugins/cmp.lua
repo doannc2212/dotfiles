@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-parameter
 return {
   {
     "hrsh7th/nvim-cmp",
