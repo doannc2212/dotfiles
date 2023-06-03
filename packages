@@ -50,6 +50,7 @@ polybar
 ranger
 ripgrep
 rofi
+rofi-power-menu
 rust
 snapd
 starship
