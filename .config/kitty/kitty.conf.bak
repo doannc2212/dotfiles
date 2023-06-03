@@ -1,12 +1,12 @@
 
-font_family      Hack Nerd Font Medium 
+font_family      Fira Code Medium 
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
 font_size 12.7
  
 # Added by Gogh
-# active_border_color #ffffff
+active_border_color #ffffff
 window_padding_width 10
 include colors.conf
 hide_window_decorations yes
@@ -15,13 +15,7 @@ initial_window_width 89c
 initial_window_height 26c
 draw_minimal_borders yes
 window_border_width 0.5px
-# active_border_color #ffffff
+active_border_color #ffffff
 # Added by Gogh
 include colors.conf
 background_opacity 0.80
-
-
-# BEGIN_KITTY_THEME
-# Tokyo Night
-include current-theme.conf
-# END_KITTY_THEME
