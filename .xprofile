@@ -58,7 +58,7 @@ export CLUTTER_IM_MODULE=ibus
 export GLFW_IM_MODULE=ibus
 
 nm-applet & 
-dunst &
-picom &
+blueman-applet & 
 ibus-daemon -drx &
-nitrogen --restore
+discord --start-minimized &
+xclip
