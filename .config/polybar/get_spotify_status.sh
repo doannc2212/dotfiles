@@ -27,7 +27,6 @@ update_hooks() {
     done < <(echo "$1")
 }
 
-
 if [ -z $PLAYERCTL_STATUS ]; then
     PLAYER="$INSTANCE2"
     PLAYERCTL_STATUS=$(playerctl --player=$PLAYER status 2>/dev/null)
