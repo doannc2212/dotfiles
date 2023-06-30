@@ -13,6 +13,7 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch on primary monitor
 TRAY=right MONITOR=$PRIMARY polybar --reload -c $BAR_CONFIG main &
+sleep 1
 # Launch on all other monitors
 for m in $OTHERS; do
   TRAY=none MONITOR=$m polybar --reload -c $BAR_CONFIG second &
