@@ -57,8 +57,15 @@ export QT4_IM_MODULE=ibus
 export CLUTTER_IM_MODULE=ibus
 export GLFW_IM_MODULE=ibus
 
+/home/doan/.screenlayout/3screen.sh &
 nm-applet & 
+sxhkd &
+mpd &
 blueman-applet & 
 ibus-daemon -drx &
 discord --start-minimized &
-xclip
+xclip &
+picom -b &
+nitrogen --restore &
+/home/doan/.app/ChatOps.AppImage &
+/home/doan/.config/polybar/launch.sh &
