@@ -42,10 +42,10 @@ nitrogen
 nodejs
 noto-fonts
 noto-fonts-emoji
+noto-fonts-cjk
 npm
-ookla-speedtest-bin
 openvpn
-picom-jonaburg-git
+picom-ftlabs-git
 polybar
 ranger
 ripgrep
@@ -60,9 +60,8 @@ tint2
 ttf-fira-code
 ttf-hack
 ttf-hack-nerd
-ttf-material-design-icons
-ttf-nerd-fonts-symbols-common
+ttf-icomoon-feather
+ttf-iosevka-nerd
 visual-studio-code-bin
 yarn
-yay
 ytfzf-git
