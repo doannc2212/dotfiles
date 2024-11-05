@@ -11,3 +11,7 @@ alias audio "spotify_player"
 alias chat-ops "chat-ops.AppImage"
 
 starship init fish | source
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
