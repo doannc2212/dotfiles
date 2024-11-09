@@ -10,6 +10,7 @@ else
     cd yay
     sudo pacman -S --noconfirm --needed base-devel
     makepkg -si
+    wait
 fi
 
 # install packages
