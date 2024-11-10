@@ -42,3 +42,4 @@ curl -fsSL https://bun.sh/install | bash
 
 # clone and install doannc2212/nvchad-config
 git clone --depth 1 https://github.com/doannc2212/nvchad-config.git ~/.config/nvim
+
