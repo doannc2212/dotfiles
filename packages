@@ -25,7 +25,6 @@ ksnip
 lightdm
 lightdm-gtk-greeter
 lxappearance
-microsoft-edge-stable-bin
 google-chrome
 mpd
 ncmpcpp
@@ -66,3 +65,9 @@ docker-compose
 warp-cli
 python-dbus
 spotify
+xclip
+i3-wm 4.24-1
+i3blocks 1.5-4
+i3lock 2.15-2
+i3status 2.15-1
+gdm
