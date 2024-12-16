@@ -6,7 +6,7 @@
     monitor = 0
     follow = mouse
     width = (300,400)
-    height = 250
+    # height = 250
     origin = top-right
     offset = 8x47
     indicate_hidden = yes
