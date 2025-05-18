@@ -16,12 +16,16 @@ fi
 # install packages
 yay -S $(cat packages) --noconfirm
 
+mkdir ~/.local/share/bin
+cp debtap ~/.local/share/bin/
+
 # copy .local folder to home directory
 cp -r .local ~/
 
 cp .xprofile ~/
 
 cp .config/* ~/.config/ -r
+
 
 # change default shell to fish
 chsh -s $(which fish)
@@ -32,17 +36,9 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 fish -c "fisher install jorgebucaran/nvm.fish"
 fish -c "fisher install jhillyerd/plugin-git"
 
-# set wallpaper
-mkdir ~/.wallpapers
-cp wallpapers/background.png ~/.wallpapers
-nitrogen ~/.wallpapers/background.png --set-scaled
-
-# install bun
-curl -fsSL https://bun.sh/install | bash
+fish_add_path ~/.local/share/bin
 
 # clone and install doannc2212/nvchad-config
 git clone --depth 1 https://github.com/doannc2212/nvchad-config.git ~/.config/nvim
 
-sudo systemctl enable gdm
 sudo systemctl enable --now docker
-sudo systemctl enable --now bluetooth
