@@ -1,14 +1,10 @@
+set -gx PF_INFO "ascii title os host kernel uptime pkgs memory"
 set -gx EDITOR nvim
 set -gx SHELL fish
-set -gx PF_INFO "ascii title os wm shell editor"
-set -gx PF_ASCII "Catppuccin"
-set -gx BAT_THEME catppuccin
-# set -x JAVA_HOME '/usr/lib/jvm/java-11-openjdk'
+# set -gx PF_INFO "ascii title os wm shell editor"
 
 alias vim "nvim"
 alias p "pnpm"
-alias audio "spotify_player"
-alias chat-ops "chat-ops.AppImage"
 
 starship init fish | source
 

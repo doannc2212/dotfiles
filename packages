@@ -5,11 +5,9 @@ adobe-source-han-serif-jp-fonts
 btop
 discord
 fish
-flameshot
 fzf
 github-cli
 kitty
-ksnip
 neovim
 nodejs
 noto-fonts
@@ -28,4 +26,11 @@ warp-cli
 zen-browser-bin
 fcitx5
 fcitx5-bamboo
-icaclient
+fcitx5-configtool
+fcitx5-gtk
+fcitx5-qt
+google-cloud-cli
+dbeaver
+waybar
+reflector
+clipman
