@@ -42,7 +42,7 @@ bluez-utils
 blueman
 dpkg
 debtap
-flameshot
+satty
 hypridle
 hyprlock
 unzip
@@ -52,3 +52,4 @@ brightnessctl
 awww
 pacman-contrib
 libayatana-appindicator
+nautilus
