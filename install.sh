@@ -31,17 +31,21 @@ else
     echo "No packages file found!"
 fi
 
-# 3. Setup ~/.local/share/bin and copy files
+# 3. Initialize git submodules
+echo_status "Initializing git submodules"
+git submodule update --init --recursive && echo "Submodules initialized." || echo "Failed to initialize submodules!"
+
+# 4. Setup ~/.local/share/bin and copy files
 echo_status "Setting up local bin"
 mkdir -p ~/.local/share/bin
 cp -ru .bin/* ~/.local/share/bin/
 
-# 4. Copy .config
+# 5. Copy .config
 echo_status "Copying .config files"
 mkdir -p ~/.config
 cp -ru .config/* ~/.config/
 
-# 5. Change default shell to fish if not already
+# 6. Change default shell to fish if not already
 echo_status "Setting fish as default shell"
 if [ "$SHELL" != "$(which fish)" ]; then
     chsh -s $(which fish) && echo "Changed default shell to fish." || echo "Failed to change default shell."
@@ -49,7 +53,7 @@ else
     echo "Fish is already the default shell."
 fi
 
-# 6. Install fisher if not installed
+# 7. Install fisher if not installed
 echo_status "Installing fisher"
 if ! fish -c "type -q fisher"; then
     fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher" || echo "Failed to install fisher!"
@@ -57,14 +61,14 @@ else
     echo "fisher is already installed."
 fi
 
-# 7. Install fish plugins
+# 8. Install fish plugins
 echo_status "Installing fish plugins"
 fisher_plugins=(jorgebucaran/nvm.fish jhillyerd/plugin-git)
 for plugin in "${fisher_plugins[@]}"; do
     fish -c "fisher install $plugin" || echo "Failed to install $plugin!"
 done
 
-# 8. Add local bin to PATH in fish config if not present
+# 9. Add local bin to PATH in fish config if not present
 echo_status "Ensuring local bin in PATH"
 if ! grep -q 'fish_add_path ~/.local/share/bin' ~/.config/fish/config.fish 2>/dev/null; then
     mkdir -p ~/.config/fish
@@ -74,7 +78,7 @@ else
     echo "~/.local/share/bin is already in fish PATH."
 fi
 
-# 9. Clone and install nvim config
+# 10. Clone and install nvim config
 echo_status "Setting up nvim config"
 if [ ! -d ~/.config/nvim ]; then
     git clone --depth 1 https://github.com/doannc2212/nvchad-config.git ~/.config/nvim || echo "Failed to clone nvim config!"
@@ -82,7 +86,7 @@ else
     echo "nvim config already exists."
 fi
 
-# 10. Enable and start docker and bluetooth services
+# 11. Enable and start docker and bluetooth services
 echo_status "Enabling docker/bluetooth services"
 for service in docker bluetooth; do
     if systemctl is-enabled --quiet $service; then
@@ -93,7 +97,7 @@ for service in docker bluetooth; do
     systemctl is-active --quiet $service && echo "$service is active." || echo "$service is NOT active!"
 done
 
-# 11. Copy Picture folder to home directory
+# 12. Copy Picture folder to home directory
 echo_status "Copying Picture folder to ~/Picture"
 SRC_DIR="$(pwd)/Picture"
 DEST_DIR="$HOME/Picture"
@@ -114,7 +118,7 @@ fi
 
 
 
-# 12. Install BetterDiscord (betterdiscordctl)
+# 13. Install BetterDiscord (betterdiscordctl)
 echo_status "Installing BetterDiscord (betterdiscordctl)"
 if ! command -v betterdiscordctl &>/dev/null; then
     curl -O https://raw.githubusercontent.com/bb010g/betterdiscordctl/master/betterdiscordctl && \
