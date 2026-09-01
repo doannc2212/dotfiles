@@ -22,13 +22,12 @@ lazydocker
 docker
 docker-compose
 warp-cli
-zen-browser-bin
+google-chrome
 fcitx5
 fcitx5-bamboo
 fcitx5-configtool
 fcitx5-gtk
 fcitx5-qt
-google-cloud-cli
 dbeaver
 waybar
 reflector
@@ -50,6 +49,6 @@ unzip
 icaclient
 quickshell
 brightnessctl
-awww-git
+awww
 pacman-contrib
 libayatana-appindicator

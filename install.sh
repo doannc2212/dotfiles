@@ -86,7 +86,15 @@ else
     echo "nvim config already exists."
 fi
 
-# 11. Enable and start docker and bluetooth services
+# 11. Clone and install quickshell config
+echo_status "Setting up quickshell config"
+if [ ! -d ~/.config/quickshell ]; then
+    git clone --depth 1 https://github.com/doannc2212/quickshell-config.git ~/.config/quickshell || echo "Failed to clone quickshell config!"
+else
+    echo "quickshell config already exists."
+fi
+
+# 12. Enable and start docker and bluetooth services
 echo_status "Enabling docker/bluetooth services"
 for service in docker bluetooth; do
     if systemctl is-enabled --quiet $service; then
