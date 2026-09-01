@@ -5,6 +5,7 @@ set -gx SHELL fish
 
 alias vim "nvim"
 alias p "pnpm"
+alias k "kubectl"
 
 starship init fish | source
 
