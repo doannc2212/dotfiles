@@ -1,8 +1,7 @@
 adobe-source-code-pro-fonts
 adobe-source-han-sans-jp-fonts
 adobe-source-han-sans-kr-fonts
-adobe-source-han-serif-jp-fonts
-btop
+adobe-source-han-serif-jp-fonts btop
 discord
 fish
 fzf
@@ -39,3 +38,8 @@ pfetch
 vlc
 vlc-plugin-ffmpeg
 obs-studio
+bluez
+bluez-utils
+blueman
+dpkg
+debtap

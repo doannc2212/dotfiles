@@ -1,44 +1,128 @@
-# !/bin/bash
+#!/bin/bash
+set -e
 
-# check if yay is installed
-if command -v yay &> /dev/null; then
-    echo "yay is installed."
-else
-    echo "yay is not installed."
-    # install yay
-    git clone https://aur.archlinux.org/yay.git
+# Helper function for status reporting
+echo_status() {
+    echo -e "\n==== $1 ===="
+}
+
+# 1. Install yay if not present
+echo_status "Checking yay installation"
+if ! command -v yay &>/dev/null; then
+    echo "yay not found. Installing yay..."
+    if [ ! -d yay ]; then
+        git clone https://aur.archlinux.org/yay.git || { echo "Failed to clone yay repo!"; exit 1; }
+        echo "Cloned yay repository."
+    fi
     cd yay
-    sudo pacman -S --noconfirm --needed base-devel
-    makepkg -si
-    wait
+    sudo pacman -S --noconfirm --needed base-devel || { echo "Failed to install base-devel!"; exit 1; }
+    makepkg -si --noconfirm || { echo "Failed to build/install yay!"; exit 1; }
+    cd ..
+    rm -rf yay
+else
+    echo "yay is already installed."
 fi
 
-# install packages
-yay -S $(cat packages) --noconfirm
+# 2. Install packages from 'packages' file
+echo_status "Installing packages"
+if [ -f packages ]; then
+    yay -S --needed --noconfirm $(cat packages) || { echo "Failed to install packages!"; exit 1; }
+else
+    echo "No packages file found!"
+fi
 
-mkdir ~/.local/share/bin
-cp debtap ~/.local/share/bin/
+# 3. Setup ~/.local/share/bin and copy files
+echo_status "Setting up local bin"
+mkdir -p ~/.local/share/bin
+cp -ru .bin/* ~/.local/share/bin/
 
-# copy .local folder to home directory
-cp -r .local ~/
+# 4. Copy .config
+echo_status "Copying .config files"
+mkdir -p ~/.config
+cp -ru .config/* ~/.config/
 
-cp .xprofile ~/
+# 5. Change default shell to fish if not already
+echo_status "Setting fish as default shell"
+if [ "$SHELL" != "$(which fish)" ]; then
+    chsh -s $(which fish) && echo "Changed default shell to fish." || echo "Failed to change default shell."
+else
+    echo "Fish is already the default shell."
+fi
 
-cp .config/* ~/.config/ -r
+# 6. Install fisher if not installed
+echo_status "Installing fisher"
+if ! fish -c "type -q fisher"; then
+    fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher" || echo "Failed to install fisher!"
+else
+    echo "fisher is already installed."
+fi
+
+# 7. Install fish plugins
+echo_status "Installing fish plugins"
+fisher_plugins=(jorgebucaran/nvm.fish jhillyerd/plugin-git)
+for plugin in "${fisher_plugins[@]}"; do
+    fish -c "fisher install $plugin" || echo "Failed to install $plugin!"
+done
+
+# 8. Add local bin to PATH in fish config if not present
+echo_status "Ensuring local bin in PATH"
+if ! grep -q 'fish_add_path ~/.local/share/bin' ~/.config/fish/config.fish 2>/dev/null; then
+    mkdir -p ~/.config/fish
+    echo 'fish_add_path ~/.local/share/bin' >> ~/.config/fish/config.fish
+    echo "Added ~/.local/share/bin to PATH in fish config."
+else
+    echo "~/.local/share/bin is already in fish PATH."
+fi
+
+# 9. Clone and install nvim config
+echo_status "Setting up nvim config"
+if [ ! -d ~/.config/nvim ]; then
+    git clone --depth 1 https://github.com/doannc2212/nvchad-config.git ~/.config/nvim || echo "Failed to clone nvim config!"
+else
+    echo "nvim config already exists."
+fi
+
+# 10. Enable and start docker and bluetooth services
+echo_status "Enabling docker/bluetooth services"
+for service in docker bluetooth; do
+    if systemctl is-enabled --quiet $service; then
+        echo "$service service already enabled."
+    else
+        sudo systemctl enable --now $service && echo "$service enabled and started." || echo "Failed to enable/start $service!"
+    fi
+    systemctl is-active --quiet $service && echo "$service is active." || echo "$service is NOT active!"
+done
+
+# 11. Copy Picture folder to home directory
+echo_status "Copying Picture folder to ~/Picture"
+SRC_DIR="$(pwd)/Picture"
+DEST_DIR="$HOME/Picture"
+
+if [ ! -d "$SRC_DIR" ]; then
+    echo "Source Picture directory does not exist: $SRC_DIR"
+else
+    if [ -d "$DEST_DIR" ]; then
+        echo "Destination directory already exists: $DEST_DIR"
+        echo "Copying contents, overwriting existing files if necessary."
+    else
+        echo "Creating destination: $DEST_DIR"
+        mkdir -p "$DEST_DIR"
+    fi
+    cp -ru "$SRC_DIR"/* "$DEST_DIR"/
+    echo "Pictures copied to $DEST_DIR successfully."
+fi
 
 
-# change default shell to fish
-chsh -s $(which fish)
 
-# install fisher
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-# install fish plugins: nvm, git
-fish -c "fisher install jorgebucaran/nvm.fish"
-fish -c "fisher install jhillyerd/plugin-git"
+# 12. Install BetterDiscord (betterdiscordctl)
+echo_status "Installing BetterDiscord (betterdiscordctl)"
+if ! command -v betterdiscordctl &>/dev/null; then
+    curl -O https://raw.githubusercontent.com/bb010g/betterdiscordctl/master/betterdiscordctl && \
+    chmod +x betterdiscordctl && \
+    sudo mv betterdiscordctl /usr/local/bin && \
+    echo "betterdiscordctl installed successfully."
+else
+    echo "betterdiscordctl is already installed."
+fi
 
-fish_add_path ~/.local/share/bin
-
-# clone and install doannc2212/nvchad-config
-git clone --depth 1 https://github.com/doannc2212/nvchad-config.git ~/.config/nvim
-
-sudo systemctl enable --now docker
+echo_status "All done! System is configured."

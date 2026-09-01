@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Usage: bind-ods [PORT]
 # Default port is 5000 if not specified
-PORT=${1:-5000}
+PORT=${1:-4322}
 alloydb-auth-proxy projects/one-global-ods-uat/locations/asia-southeast1/clusters/sea1-uat-ods-db-cluster/instances/ods-chorus?port=$PORT --public-ip --auto-iam-authn
