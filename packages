@@ -51,3 +51,5 @@ icaclient
 quickshell
 brightnessctl
 awww-git
+pacman-contrib
+libayatana-appindicator
