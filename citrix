@@ -1,3 +1,4 @@
 https://www.citrix.com/downloads/citrix-secure-access/plug-ins/Citrix-Gateway-VPN-EPA-Clients-Ubuntu.html
+https://www.citrix.com/downloads/citrix-endpoint-analysis/plug-ins/EPA-Clients-Ubuntu.html
 
 sudo ln -s /usr/lib/libgpgme.so /usr/lib/libgpgme.so.11
